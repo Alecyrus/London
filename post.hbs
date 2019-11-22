@@ -1,23 +1,26 @@
 {{!< default}}
 
 {{#post}}
-<article class="post-content {{post_class}} {{#unless feature_image}}no-image{{/unless}}">
 
+
+<article class="post-content {{post_class}} {{#unless feature_image}}no-image{{/unless}}">
+    <p class="post-content-updated_at">{{date published_at format="MMMM DD, YYYY"}}</p>
     <header class="post-content-header">
         <h1 class="post-content-title">{{title}}</h1>
     </header>
 
     {{#if custom_excerpt}}
-        <p class="post-content-excerpt">{{custom_excerpt}}</p>
+    <p class="post-content-excerpt">{{custom_excerpt}}</p>
     {{/if}}
 
-    {{#if feature_image}}
+    {{!-- {{#if feature_image}}
     <div class="post-content-image">
         <img class="kg-image" src="{{feature_image}}" alt="{{title}}" />
     </div>
-    {{/if}}
+    {{/if}} --}}
 
-    <div class="post-content-body">
+    <div id="postContentBody"
+         class="post-content-body">
         {{content}}
     </div>
 
@@ -40,25 +43,73 @@
 
     </footer>
 
-    {{!--
-    <section class="post-content-comments">
-        If you want to embed comments, this is a good place to do it!
-    </section>
-    --}}
 
+
+
+    {{!-- <section class="post-content-comments">
+        If you want to embed comments, this is a good place to do it!
+    </section> --}}
+
+    <div id="gitalk-container"></div>
+
+
+
+    <script type="text/javascript"
+            src="{{asset "built/gitalk.min.js"}}"></script>
+
+
+    <script type="text/javascript"
+            src="{{asset "built/jquery.min.js"}}"></script>
+
+    <script type="text/javascript"
+            src="{{asset "built/jquery-ui.min.js"}}"></script>
+
+    <script type="text/javascript"
+            src="{{asset "built/jquery.tocify.min.js"}}"></script>
+
+    <script>
+        var images = document.querySelectorAll('.kg-gallery-image img');
+        images.forEach(function (image) {
+            var container = image.closest('.kg-gallery-image');
+            var width = image.attributes.width.value;
+            var height = image.attributes.height.value;
+            var ratio = width / height;
+            container.style.flex = ratio + ' 1 0%';
+        })
+        new Gitalk({
+            clientSecret: 'ed2ec833dbae31aa74c8790b3532ac36566eaf73',
+            owner: 'Greathings-Lab',
+            repo: 'ThornWritingWebsiteComments',
+            clientID: '29706ec031fffb6f3c74',
+            admin: ['Auxxxxlx'],
+            title: document.title,
+            language: "zh",
+            body: document.title + " - 评论",
+            id: document.location.href.split('/').slice(-2, -1)[0],
+            distractionFreeMode: false  // Facebook-like distraction free mode
+        }).render('gitalk-container')
+
+        var a = document.getElementById('toc')
+        if (a != undefined) {
+            document.body.removeChild(a)
+        }
+        tocify(window.jQuery, window, document);
+        var temp = document.createElement('div');
+        temp.id = "toc"
+        document.body.appendChild(temp)
+
+        $("#toc").tocify({
+            selectors: "h2,h3,h4,h5", // 选择要筛选的标题
+            extendPage: false, // 页面不够长时拉长页面，这里选择关闭因为感觉留出大片空白不好看- -
+            highlightDefault: false, // 自动高亮第一条
+            theme: 'jqueryui'
+        });
+
+    </script>
 </article>
 {{/post}}
 
 {{!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs --}}
 {{#contentFor "scripts"}}
-<script>
-    var images = document.querySelectorAll('.kg-gallery-image img');
-    images.forEach(function (image) {
-        var container = image.closest('.kg-gallery-image');
-        var width = image.attributes.width.value;
-        var height = image.attributes.height.value;
-        var ratio = width / height;
-        container.style.flex = ratio + ' 1 0%';
-    })
-</script>
+
 {{/contentFor}}

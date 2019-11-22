@@ -9,7 +9,9 @@
 
     {{#if feature_image}}
     <div class="post-content-image">
-        <img class="kg-image" src="{{feature_image}}" alt="{{title}}" />
+        <img class="kg-image"
+             src="{{feature_image}}"
+             alt="{{title}}" />
     </div>
     {{/if}}
 
@@ -17,19 +19,35 @@
         {{content}}
     </div>
 
+    <script type="text/javascript"
+            src="{{asset "built/jquery.min.js"}}"></script>
+
+    <script type="text/javascript"
+            src="{{asset "built/jquery-ui.min.js"}}"></script>
+
+    <script type="text/javascript"
+            src="{{asset "built/jquery.tocify.min.js"}}"></script>
+    <script>
+        var images = document.querySelectorAll('.kg-gallery-image img');
+        images.forEach(function (image) {
+            var container = image.closest('.kg-gallery-image');
+            var width = image.attributes.width.value;
+            var height = image.attributes.height.value;
+            var ratio = width / height;
+            container.style.flex = ratio + ' 1 0%';
+        })
+
+        var a = document.getElementById('toc')
+        if (a != undefined) {
+            document.body.removeChild(a)
+        }
+
+    </script>
+
 </article>
 {{/post}}
 
 {{!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs --}}
 {{#contentFor "scripts"}}
-<script>
-    var images = document.querySelectorAll('.kg-gallery-image img');
-    images.forEach(function (image) {
-        var container = image.closest('.kg-gallery-image');
-        var width = image.attributes.width.value;
-        var height = image.attributes.height.value;
-        var ratio = width / height;
-        container.style.flex = ratio + ' 1 0%';
-    })
-</script>
+
 {{/contentFor}}

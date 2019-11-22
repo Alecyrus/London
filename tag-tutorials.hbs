@@ -7,7 +7,7 @@ into the {body} of the default.hbs template --}}
         style="padding:20vh 0 10vh 0">
     </default>
     <h1 class="page-head-title">{{name}}</h1>
-    <p class="page-head-description">
+    <p class="page-head-description-tutorials">
         {{#if description}}
         {{description}}
         {{else}}
@@ -15,16 +15,28 @@ into the {body} of the default.hbs template --}}
         {{/if}}
     </p>
 </header>
-{{/tag}}
+
 
 <div class="post-feed post-result-feed">
 
-    {{!-- {{#get "posts"  order="published_at asc"}} --}}
+    {{#get "posts"  filter="primary_tag:tutorials" order="published_at asc"}}
     {{#foreach posts}}
 
     {{!-- The tag below includes the markup for each post - partials/post-card.hbs --}}
     {{> "post-result"}}
 
     {{/foreach}}
-    {{!-- {{/get}} --}}
+
+    {{/get}}
 </div>
+{{/tag}}
+
+
+{{#contentFor "scripts"}}
+<script>
+    var a = document.getElementById('toc')
+    if (a != undefined) {
+        document.body.removeChild(a)
+    }
+</script>
+{{/contentFor}}

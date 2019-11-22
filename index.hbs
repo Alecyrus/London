@@ -3,19 +3,91 @@
 into the {body} of the default.hbs template --}}
 
 {{#is "home"}}
-    {{#if @site.description}}
-    <header class="page-head">
-        <h2 class="page-head-title">{{@site.description}}</h2>
-    </header>
-    {{/if}}
+{{#if @site.description}}
+<header class="page-head"
+        style="padding:20vh 0 10vh 0">
+    <h2 style="opacity:0.3;line-height:1;margin: .5em 0 .5em;">全新的荆棘写作</h2>
+    <h1 class="page-head-title"
+        style="font-size:6rem">焕然一新，一见倾 ❤️</h1>
+    <div class="download-btng">
+        <button title="暂未开放下载"
+                class="download-btng-button"><i class="ri-windows-fill"></i>Windows</button>
+        <button title="暂未开放下载"
+                class=" download-btng-button btn-macos"> <i class="ri-apple-fill"></i> macOS</button>
+    </div>
+
+</header>
+{{/if}}
 {{/is}}
 
 <div class="post-feed">
+
+    {{#get "posts" filter="primary_tag:home"}}
     {{#foreach posts}}
 
-        {{!-- The tag below includes the markup for each post - partials/post-card.hbs --}}
-        {{> "post-card"}}
+    {{> "post-card"}}
 
     {{/foreach}}
+    {{/get}}
 </div>
 
+{{#contentFor "scripts"}}
+<script>
+    var a = document.getElementById('toc')
+    if (a != undefined) {
+        document.body.removeChild(a)
+    }
+</script>
+{{/contentFor}}
+<style>
+    .download-btng {
+        display: flex;
+        margin: 3rem 0;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .btn-macos {
+        padding-right: 1.85rem !important;
+    }
+
+    .btn-macos i {
+        margin-right: 1.60rem !important;
+    }
+
+    .download-btng-button {
+        display: inline-block;
+        padding: 0 1.2rem;
+        margin: auto 3rem;
+        cursor: not-allowed;
+        border: 0 !important;
+        border-radius: 10rem !important;
+        background: black;
+        color: white !important;
+        box-shadow: 0 0 24px 6px rgba(0, 0, 0, 0.2) !important;
+        outline: none;
+        font-family: 'Ubuntu', sans-serif !important;
+        font-size: 2rem !important;
+        line-height: 2 !important;
+        height: 4rem !important;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+        appearance: none;
+        transition: 0.4s ease;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .download-btng-button>i {
+        margin-right: 0.6rem;
+        font-size: 2rem
+    }
+
+    .download-btng-button:hover {
+        color: white !important;
+        filter: brightness(0.8);
+        background: rgba(0, 0, 0, 0.8) !important;
+    }
+</style>
