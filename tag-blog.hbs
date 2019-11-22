@@ -32,11 +32,35 @@ into the {body} of the default.hbs template --}}
 </div>
 {{/tag}}
 
+
 {{#contentFor "scripts"}}
+
+
+<script type="text/javascript"
+        src="{{asset "built/jquery.min.js"}}"></script>
+
+<script type="text/javascript"
+        src="{{asset "built/jquery-ui.min.js"}}"></script>
+
+<script type="text/javascript"
+        src="{{asset "built/jquery.tocify.min.js"}}"></script>
+
 <script>
     var a = document.getElementById('toc')
     if (a != undefined) {
         document.body.removeChild(a)
     }
+    tocify(window.jQuery, window, document);
+    var temp = document.createElement('div');
+    temp.id = "toc"
+    document.body.appendChild(temp)
+
+    $("#toc").tocify({
+        selectors: "h2,h3,h4,h5", // 选择要筛选的标题
+        extendPage: false, // 页面不够长时拉长页面，这里选择关闭因为感觉留出大片空白不好看- -
+        highlightDefault: false, // 自动高亮第一条
+        theme: 'jqueryui'
+    });
+
 </script>
 {{/contentFor}}
